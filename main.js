@@ -16,6 +16,8 @@ async function petsArea() {
   const petsData = await petsPromise.json()
   petsData.forEach(pet => {
     const clone = template.content.cloneNode(true)
+    //Show what species is each pet card.
+    clone.querySelector(".pet-card").dataset.species = pet.species
 
     clone.querySelector("h3").textContent = pet.name
     clone.querySelector(".pet-description").textContent = pet.description
@@ -58,4 +60,12 @@ function handleButtonClick(e) {
   e.target.classList.add("active")
 
   //Actually filter the pets down below.
+  const currentFilter = e.target.dataset.filter
+  document.querySelectorAll(".pet-card").forEach(el => {
+    if (currentFilter == el.dataset.species || currentFilter == "all") {
+      el.style.display = "grid"
+    } else {
+      el.style.display = "none"
+    }
+  })
 }
